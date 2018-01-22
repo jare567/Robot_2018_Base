@@ -32,7 +32,10 @@
 #define REAR_LEFT_MOTOR_ID 1
 #define REAR_RIGHT_MOTOR_ID 2
 
-#define POWERCUBE_LIFTER_ID 6
+#define POWERCUBE_LIFTER_ID 5
+#define ARM_LEFT_MOTOR_ID 6
+#define ARM_RIGHT_MOTOR_ID 7
+
 
 // If you are using multiple modules, make sure to define both the port
 // number and the module. For example you with a rangefinder:
