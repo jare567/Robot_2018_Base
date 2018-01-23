@@ -35,7 +35,7 @@ void MecanumSaucerDrive::Execute()
 
 
 	// Engage!!!
-	drivetrain->Go(xOI, yOI, twistOI, 0.0); // Fourth argument is Gyro Angle (optional)
+	drivetrain->Go(xOI, yOI, twistOI, 0.0); // FIXME: Fourth argument is Gyro Angle (optional)
 
 }
 

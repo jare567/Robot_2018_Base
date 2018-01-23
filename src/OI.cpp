@@ -30,9 +30,27 @@ OI::OI() {
 	gearLightBtn->WhileHeld(new GearLight);
 
 	// Piston Extend & Retract buttons
-	extendBtn = new JoystickButton(xboxController, 2);
+	extendBtn = new JoystickButton(xboxController, 6);
 	extendBtn->WhenPressed(new PistonExtend);
-	retractBtn = new JoystickButton(xboxController, 3);
+	retractBtn = new JoystickButton(xboxController, 7);
 	retractBtn->WhenPressed(new PistonRetract);
+
+	// PowerCube Grab
+	lBumper = new JoystickButton(xboxController, 4);
+	lBumper->WhenPressed(new GearLight); // FIXME: GrabLeft
+	rBumper = new JoystickButton(xboxController, 5);
+	rBumper->WhenPressed(new GearLight); // FIXME: GrabRight
+
+	// PowerCube Eject
+	xboxXBtn = new JoystickButton(xboxController, 1);
+	xboxXBtn->WhenPressed(new GearLight); // FIXME: EjectCube
+
+	// Forklift Raise & Lower
+	xboxABtn = new JoystickButton(xboxController, 1);
+	xboxABtn->WhenPressed(new GearLight); // FIXME: LowerFork
+	xboxBBtn = new JoystickButton(xboxController, 0);
+	xboxBBtn->WhenPressed(new GearLight); // FIXME: RaiseFork
+
+
 
 }
