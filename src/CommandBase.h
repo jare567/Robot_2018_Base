@@ -5,10 +5,12 @@
 #include "Commands/Command.h"
 #include "OI.h"
 #include "WPILib.h"
+#include "Subsystems/ForkLifter.h"
 #include "Subsystems/Utility.h"
 #include "Subsystems/Piston.h"
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/Climber.h"
+#include "Subsystems/GrabbArms.h"
 
 //#include "Subsystems/DataLogger.h"
 //#include "Subsystems/Camera.h"
@@ -29,8 +31,10 @@ public:
 	// Create a single static instance of all of your subsystems
 	static Climber *climber;
 	static OI *oi;
+	static ForkLifter *forklifter;
 	static Piston *piston;
 	static DriveTrain *drivetrain;
+	static GrabbArms *grabbarms;
 	static Utility *utility;
 	//	static DataLogger *datalogger;
 	//	static Camera *camera;

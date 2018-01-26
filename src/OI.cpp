@@ -11,6 +11,9 @@
 #include <Commands/PistonRetract.h>
 #include <Commands/Climb.h>
 #include <Commands/Descend.h>
+#include <Commands/GrabLeft.h>
+#include <Commands/GrabRight.h>
+#include <Commands/Eject.h>
 
 /* ****
  *
@@ -43,13 +46,13 @@ OI::OI() {
 
 	// PowerCube Grab
 	lBumper = new JoystickButton(xboxController, 5);
-	lBumper->WhileHeld(new GearLight); // FIXME: replace WhileHeld(new GrabLeft) command
+	lBumper->WhileHeld(new GrabLeft); // FIXME: replace WhileHeld(new GrabLeft) command
 	rBumper = new JoystickButton(xboxController, 6);
-	rBumper->WhileHeld(new GearLight); // FIXME: replace with WhenHeld(new GrabRight) command
+	rBumper->WhileHeld(new GrabRight); // FIXME: replace with WhenHeld(new GrabRight) command
 
 	// PowerCube Eject
 	xboxXBtn = new JoystickButton(xboxController, 3);
-	xboxXBtn->WhileHeld(new GearLight); // FIXME: Replace with WhileHeld(new EjectCube) command
+	xboxXBtn->WhileHeld(new Eject); // FIXME: Replace with WhileHeld(new Eject) command
 
 	// Climb & Descend
 	xboxABtn = new JoystickButton(xboxController, 2);
