@@ -15,6 +15,7 @@
 #include <TimedRobot.h>
 
 #include "Commands/MecanumSaucerDrive.h"
+#include "Commands/ForkRaise.h"
 #include "Commands/ExampleCommand.h"
 #include "Commands/MyAutoCommand.h"
 #include "ctre/Phoenix.h"
@@ -34,6 +35,7 @@ private:
 	SendableChooser<Command*> *autonomouschooser;
 	Command *autonomousCommand = nullptr;
 	Command *teleopCommand = nullptr;
+	Command *fork = nullptr;
 
 	ExampleCommand m_defaultAuto;
 	MyAutoCommand m_myAuto;
@@ -129,6 +131,16 @@ public:
 		teleopCommand = new MecanumSaucerDrive();
 		if (teleopCommand != nullptr)
 			teleopCommand->Start();
+		/*
+		 * FIXME Can we run a second command concurrently for forklift?
+
+		climber = new Climb();
+		if (climber != nullptr)
+			climber->Start();
+		 */
+		fork = new ForkRaise();
+		if (fork != nullptr)
+			fork->Start();
 
 	}
 

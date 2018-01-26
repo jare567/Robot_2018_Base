@@ -1,32 +1,39 @@
 #include "ForkLower.h"
 
-ForkLower::ForkLower() {
+ForkLower::ForkLower()
+{
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
+	Requires(forklifter);
 }
 
 // Called just before this Command runs the first time
-void ForkLower::Initialize() {
+void ForkLower::Initialize()
+{
 
 }
 
 // Called repeatedly when this Command is scheduled to run
-void ForkLower::Execute() {
+void ForkLower::Execute()
+{
 
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool ForkLower::IsFinished() {
+bool ForkLower::IsFinished()
+{
 	return false;
 }
 
 // Called once after isFinished returns true
-void ForkLower::End() {
-
+void ForkLower::End()
+{
+	forklifter->Stop();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ForkLower::Interrupted() {
-
+void ForkLower::Interrupted()
+{
+	forklifter->Stop();
 }

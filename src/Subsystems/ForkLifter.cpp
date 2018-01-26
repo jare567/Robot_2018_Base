@@ -1,12 +1,10 @@
 #include "ForkLifter.h"
 #include "../RobotMap.h"
 
-#define UP 1.0 // FIXME: test and use actual motor direction
-#define DN -1.0 //FIXME: " "
 
 ForkLifter::ForkLifter() : frc::Subsystem("ForkLifter")
 {
-	lm = new WPI_TalonSRX(6); // Lifter motor
+	lm = new WPI_TalonSRX(POWERCUBE_LIFTER_ID); // Lifter motor
 
 }
 
@@ -18,16 +16,16 @@ void ForkLifter::InitDefaultCommand()
 
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
-void ForkLifter::Raise()
+void ForkLifter::Raise(double speed)
 {
-	lm->Set(UP);
+	lm->Set(speed);
 
 }
 
-void ForkLifter::Lower()
+void ForkLifter::Lower(double speed)
 {
 
-	lm->Set(DN);
+	lm->Set(-speed);
 }
 
 void ForkLifter::Stop()

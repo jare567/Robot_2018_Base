@@ -3,7 +3,8 @@
 
 #include "../CommandBase.h"
 
-class ForkLower : public CommandBase {
+class ForkLower : public CommandBase
+{
 public:
 	ForkLower();
 	void Initialize();

@@ -16,8 +16,8 @@ private:
 public:
 	ForkLifter();
 	void InitDefaultCommand();
-	void Raise();
-	void Lower();
+	void Raise(double);
+	void Lower(double);
 	void Stop();
 };
 
