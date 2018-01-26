@@ -5,6 +5,7 @@
 #include "Commands/Command.h"
 #include "OI.h"
 #include "WPILib.h"
+#include "Subsystems/ForkLifter.h"
 #include "Subsystems/Utility.h"
 #include "Subsystems/Piston.h"
 #include "Subsystems/DriveTrain.h"
@@ -28,6 +29,7 @@ public:
 	static void init();
 	// Create a single static instance of all of your subsystems
 	static OI *oi;
+	static ForkLifter *forklifter;
 	static Piston *piston;
 	static DriveTrain *drivetrain;
 	static GrabbArms *grabbarms;
