@@ -129,6 +129,13 @@ public:
 		teleopCommand = new MecanumSaucerDrive();
 		if (teleopCommand != nullptr)
 			teleopCommand->Start();
+		/*
+		 * FIXME Can we run a second command concurrently for climb & descend?
+
+		climber = new Climb();
+		if (climber != nullptr)
+			climber->Start();
+		 */
 
 	}
 
