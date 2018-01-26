@@ -6,6 +6,7 @@ OI* CommandBase::oi = NULL;
 DriveTrain* CommandBase::drivetrain = NULL;
 Piston*	CommandBase::piston = NULL;
 Utility* CommandBase::utility = NULL;
+GrabbArms* CommandBase::grabbarms = NULL;
 //Camera* CommandBase::camera = NULL;
 
 CommandBase::CommandBase(char const *name): Command(name) {}
@@ -20,4 +21,5 @@ void CommandBase::init()
 	piston = new Piston();
 //	camera = new Camera();
 	utility = new Utility();
+	grabbarms = new GrabbArms();
 }

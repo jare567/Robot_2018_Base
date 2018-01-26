@@ -17,7 +17,7 @@
 #include "Commands/MecanumSaucerDrive.h"
 #include "Commands/ExampleCommand.h"
 #include "Commands/MyAutoCommand.h"
-#include "ctre/Phoenix.h"
+#include <ctre/Phoenix.h>
 
 #include "OI.h"
 
