@@ -8,6 +8,7 @@
 #include "Subsystems/Utility.h"
 #include "Subsystems/Piston.h"
 #include "Subsystems/DriveTrain.h"
+#include "Subsystems/Climber.h"
 
 //#include "Subsystems/DataLogger.h"
 //#include "Subsystems/Camera.h"
@@ -26,6 +27,7 @@ public:
 	CommandBase();
 	static void init();
 	// Create a single static instance of all of your subsystems
+	static Climber *climber;
 	static OI *oi;
 	static Piston *piston;
 	static DriveTrain *drivetrain;

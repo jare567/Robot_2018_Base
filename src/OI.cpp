@@ -9,6 +9,8 @@
 #include <Commands/GearLight.h>
 #include <Commands/PistonExtend.h>
 #include <Commands/PistonRetract.h>
+#include <Commands/Climb.h>
+#include <Commands/Descend.h>
 
 /* ****
  *
@@ -51,9 +53,9 @@ OI::OI() {
 
 	// Climb & Descend
 	xboxABtn = new JoystickButton(xboxController, 2);
-	xboxABtn->WhileHeld(new GearLight); // FIXME: replace with WhileHeld(new Climb) command
+	xboxABtn->WhileHeld(new Climb); // FIXME: replace with WhileHeld(new Climb) command
 	xboxBBtn = new JoystickButton(xboxController, 1);
-	xboxBBtn->WhileHeld(new GearLight); // FIXME: replace with WhileHeld(new Descend) command
+	xboxBBtn->WhileHeld(new Descend); // FIXME: replace with WhileHeld(new Descend) command
 
 	// ForkLift Raise & Lower utilize AXES 2 & 3 (Left & Right Triggers)
 
