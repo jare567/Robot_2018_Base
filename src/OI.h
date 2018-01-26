@@ -11,10 +11,29 @@
 class OI {
 public:
 	OI();
+	// Driver - XBoxController
 	Joystick *xboxController;
+
 	// Map buttons for turning in gear light
 	JoystickButton *gearLightBtn;
+
+	// Pneumatic piston
 	JoystickButton *extendBtn;
 	JoystickButton *retractBtn;
 
+	// Climb & Descend are Triggers (axes 2 & 3)
+
+	// Forklift Raise & Lower
+	JoystickButton *xboxABtn;
+	JoystickButton *xboxBBtn;
+
+	// Left & Right Grabber Motors
+	JoystickButton *lBumper;
+	JoystickButton *rBumper;
+	JoystickButton *xboxXBtn;
+
+	// Co-Driver - NES Controller
+	Joystick *NESController;
+
+	// FIXME: Define the three buttons on the NESController for forklift levels
 };

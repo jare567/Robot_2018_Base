@@ -17,7 +17,7 @@
 #include "Commands/MecanumSaucerDrive.h"
 #include "Commands/ExampleCommand.h"
 #include "Commands/MyAutoCommand.h"
-#include "ctre/Phoenix.h"
+#include <ctre/Phoenix.h>
 
 #include "OI.h"
 
@@ -129,6 +129,13 @@ public:
 		teleopCommand = new MecanumSaucerDrive();
 		if (teleopCommand != nullptr)
 			teleopCommand->Start();
+		/*
+		 * FIXME Can we run a second command concurrently for climb & descend?
+
+		climber = new Climb();
+		if (climber != nullptr)
+			climber->Start();
+		 */
 
 	}
 

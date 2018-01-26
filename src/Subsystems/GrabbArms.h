@@ -1,7 +1,8 @@
 #ifndef GrabbArms_H
 #define GrabbArms_H
+#include <Commands/Subsystem.h>
 #include <ctre/Phoenix.h>
-#include "Commands/Subsystem.h"
+#include "WPILib.h"
 
 class GrabbArms : public Subsystem
 {
@@ -14,6 +15,14 @@ private:
 public:
 	GrabbArms();
 	void InitDefaultCommand();
+	void RightIn();
+	void RightStop();
+	void LeftIn();
+	void LeftStop();
+	void Eject();
+	void AllStop();
+
+
 };
 
 #endif  // GrabbArms_H

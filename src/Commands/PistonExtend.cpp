@@ -9,11 +9,11 @@ PistonExtend::PistonExtend() {
 // Called just before this Command runs the first time
 void PistonExtend::Initialize() {
 	// This is where we can extend the piston
-	piston->Extend();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void PistonExtend::Execute() {
+	piston->Extend();
 }
 
 // Make this return true when this Command no longer needs to run execute()
