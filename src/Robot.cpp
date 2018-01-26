@@ -130,8 +130,8 @@ public:
 		if (teleopCommand != nullptr)
 			teleopCommand->Start();
 		/*
-		 * Can we do this? Run a second command for climb & descend?
-		FIXME
+		 * FIXME Can we run a second command concurrently for climb & descend?
+
 		climber = new Climb();
 		if (climber != nullptr)
 			climber->Start();
