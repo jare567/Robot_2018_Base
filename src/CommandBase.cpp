@@ -6,6 +6,7 @@ OI* CommandBase::oi = NULL;
 DriveTrain* CommandBase::drivetrain = NULL;
 Piston*	CommandBase::piston = NULL;
 Utility* CommandBase::utility = NULL;
+GrabbArms* CommandBase::grabbarms = NULL;
 //Camera* CommandBase::camera = NULL;
 ForkLifter* CommandBase::forklifter = NULL;
 
@@ -22,4 +23,5 @@ void CommandBase::init()
 //	camera = new Camera();
 	utility = new Utility();
 	forklifter = new ForkLifter();
+	grabbarms = new GrabbArms();
 }
