@@ -1,17 +1,21 @@
 #include "Climber.h"
-#include "../RobotMap.h"
 
 #define FWD 1.0
 #define REV -1.0
 
-Climber::Climber() : Subsystem("Climber")
+Climber::Climber() : frc::Subsystem("Climber")
 {
 	//a = new WPI_TalonSRX(CLIMBER_MOTOR_1_ID); // Climber Motor a FIXME restore when have two motors
 	b = new WPI_TalonSRX(CLIMBER_MOTOR_2_ID); // Climber Motor 2
 	b->SetInverted(true);
+	enc = new Encoder(2, 3);
 
-	//a->Set(ControlMode::PercentOutput, 0); FIXME rtwo motors
+
+	//a->Set(ControlMode::PercentOutput, 0); FIXME two motors
 	b->Set(ControlMode::PercentOutput, 0);
+	EncoderValue = 0;
+
+
 }
 
 void Climber::InitDefaultCommand()
@@ -27,12 +31,16 @@ void Climber::Climb()
 {
 	//a->Set(FWD); FIXME two motors
 	b->Set(FWD);
+	EncoderValue = enc->Get();
+	SmartDashboard::PutNumber("Climber Encoder: ", EncoderValue);
 }
 
 void Climber::Descend()
 {
 	//a->Set(REV); FIXME two motors
 	b->Set(REV);
+	EncoderValue = enc->Get();
+	SmartDashboard::PutNumber("Climber Encoder: ", EncoderValue);
 }
 
 void Climber::Stop()
