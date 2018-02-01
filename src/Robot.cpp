@@ -15,9 +15,10 @@
 #include <TimedRobot.h>
 
 #include "Commands/MecanumSaucerDrive.h"
-#include "Commands/ForkRaise.h"
-#include "Commands/ExampleCommand.h"
+//#include "Commands/ExampleCommand.h"
 #include "Commands/MyAutoCommand.h"
+#include "Subsystems/ForkLifter.h"
+#include <Commands/ForkMove.h>
 #include "Commands/GrabLeft.h"//FIXME remove after test
 #include <ctre/Phoenix.h>
 #include <ADIS16448_IMU.h>
@@ -40,7 +41,7 @@ private:
 	Command *fork = nullptr;
 	ADIS16448_IMU *imu; // Inertial Management Unit
 
-	ExampleCommand m_defaultAuto;
+	//ExampleCommand m_defaultAuto;
 	MyAutoCommand m_myAuto;
 	frc::SendableChooser<frc::Command*> m_chooser;
 	Compressor *compressor;
@@ -55,7 +56,7 @@ public:
 	{
 		CommandBase::init(); // Borrowed from 2017 code base
 
-		m_chooser.AddDefault("Default Auto", &m_defaultAuto);
+		//m_chooser.AddDefault("Default Auto", &m_defaultAuto);
 		m_chooser.AddObject("My Auto", &m_myAuto);
 		//frc::SmartDashboard::init();
 		frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
@@ -111,7 +112,7 @@ public:
 		if (autoSelected == "My Auto") {
 			m_autonomousCommand = &m_myAuto;
 		} else {
-			m_autonomousCommand = &m_defaultAuto;
+			//m_autonomousCommand = &m_defaultAuto;
 		}
 
 		m_autonomousCommand = m_chooser.GetSelected();
@@ -152,7 +153,7 @@ public:
 		if (climber != nullptr)
 			climber->Start();
 		 */
-		fork = new ForkRaise();
+		fork = new ForkMove();
 		if (fork != nullptr)
 			fork->Start();
 
@@ -169,6 +170,7 @@ public:
 		SmartDashboard::PutBoolean("Compressor: ",compressor->Enabled());
 		SmartDashboard::PutBoolean("Pressure Switch: ", compressor->GetPressureSwitchValue());
 		SmartDashboard::PutNumber("Compressor Current: ", compressorCurrent = compressor->GetCompressorCurrent());
+
 	}
 
 	void TestPeriodic() override
