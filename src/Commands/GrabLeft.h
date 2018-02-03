@@ -1,12 +1,11 @@
-#ifndef ForkLower_H
-#define ForkLower_H
+#ifndef GrabLeft_H
+#define GrabLeft_H
 
 #include "../CommandBase.h"
 
-class ForkLower : public CommandBase
-{
+class GrabLeft : public CommandBase {
 public:
-	ForkLower();
+	GrabLeft();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -14,4 +13,4 @@ public:
 	void Interrupted();
 };
 
-#endif  // ForkLower_H
+#endif  // GrabLeft_H

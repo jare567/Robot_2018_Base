@@ -1,7 +1,7 @@
 #include "Climber.h"
 
-#define FWD 1.0
-#define REV -1.0
+#define CLIMB 1.0
+#define DESCEND -1.0
 
 Climber::Climber() : frc::Subsystem("Climber")
 {
@@ -33,7 +33,6 @@ void Climber::Climb()
 	b->Set(FWD);
 	EncoderValue = enc->Get();
 	SmartDashboard::PutNumber("Climber Encoder: ", EncoderValue);
-}
 
 void Climber::Descend()
 {

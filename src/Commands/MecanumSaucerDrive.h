@@ -1,6 +1,7 @@
 #ifndef MecanumSaucerDrive_H
 #define MecanumSaucerDrive_H
 
+#include <ADIS16448_IMU.h>
 #include "../CommandBase.h"
 #include "OI.h"
 
@@ -12,8 +13,11 @@
 #define DEADBAND_TWIST .3
 
 class MecanumSaucerDrive : public CommandBase {
+private:
+	ADIS16448_IMU *gyro;
+	double gyro_angle;
 public:
-	MecanumSaucerDrive();
+	MecanumSaucerDrive(ADIS16448_IMU *);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -21,6 +25,7 @@ public:
 	void Interrupted();
 	double GetX();
 	double GetY();
+	double GetInvertedY(); // Negative of GetY()
 	double GetTwist();
 };
 

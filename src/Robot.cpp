@@ -14,11 +14,16 @@
 #include <SmartDashboard/SmartDashboard.h>
 #include <TimedRobot.h>
 
+#include "Commands/autoNothing.h"
 #include "Commands/MecanumSaucerDrive.h"
-#include "Commands/ForkRaise.h"
-#include "Commands/ExampleCommand.h"
+//#include "Commands/ExampleCommand.h"
 #include "Commands/MyAutoCommand.h"
+#include "Commands/GrabLeft.h"
+#include "Commands/GrabRight.h"
+// #include "Subsystems/ForkLifter.h"
+#include "Commands/ForkMove.h"
 #include <ctre/Phoenix.h>
+#include "ADIS16448_IMU.h"
 
 #include "OI.h"
 
@@ -27,32 +32,44 @@ private:
 	// Have it null by default so that if testing teleop it
 	// doesn't have undefined behavior and potentially crash.
 	// The following are based on the WPILib example
-	frc::Command* m_autonomousCommand = nullptr;
-	frc::Command* m_teleopCommand = nullptr;
 
-	// The following were copied from 2017 code base
-	SendableChooser<Command*> *drivemodechooser;
-	SendableChooser<Command*> *autonomouschooser;
 	Command *autonomousCommand = nullptr;
 	Command *teleopCommand = nullptr;
 	Command *fork = nullptr;
 
-	ExampleCommand m_defaultAuto;
-	MyAutoCommand m_myAuto;
-	frc::SendableChooser<frc::Command*> m_chooser;
+	SendableChooser<Command*> *autochooser;
+	SendableChooser<Command*> *teleopchooser;
 	Compressor *compressor;
 	bool compressorEnabled, compressorPressureSwitch;
 	double compressorCurrent;
+	ADIS16448_IMU *imu; // Inertial Management Unit
 
 public:
 
+	double gyroAngle;
+
 	void RobotInit() override
 	{
+
 		CommandBase::init(); // Borrowed from 2017 code base
 
-		m_chooser.AddDefault("Default Auto", &m_defaultAuto);
-		m_chooser.AddObject("My Auto", &m_myAuto);
-		frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+		autochooser = new SendableChooser<Command*>;
+		teleopchooser = new SendableChooser<Command*>;
+		imu = new ADIS16448_IMU(); // Instantiate before Sendable Chooser
+
+		// Autonomous Modes
+		autochooser->AddDefault("Do Nothing", new autoNothing(15));
+		autochooser->AddObject("Basic Mobility", new autoNothing(15));
+		autochooser->AddObject("Left Field Plates", new autoNothing(15));
+		autochooser->AddObject("Right Field Plates", new autoNothing(15));
+
+		teleopchooser->AddDefault("Xbox Saucer", new MecanumSaucerDrive(imu));
+		teleopchooser->AddObject("Xbox Standard", new MecanumSaucerDrive(nullptr));
+
+		//frc::SmartDashboard::init();
+		frc::SmartDashboard::PutData("Auto Modes", autochooser);
+		frc::SmartDashboard::PutData("Teleop Modes", teleopchooser);
+		SmartDashboard::PutData("Grab Left Command", new GrabLeft()); //can run command on SmartDashboard
 
 		printf("Instantiating compressor object...\n");
 		compressor = new Compressor();
@@ -60,11 +77,8 @@ public:
 		compressorEnabled = compressor->Enabled();
 		compressorPressureSwitch = compressor->GetPressureSwitchValue();
 		compressorCurrent = compressor->GetCompressorCurrent();
-
-		// drivemodechooser = new SendableChooser<Command*>;
-//		drivemodechooser->AddObject("Standard Tank Drive", new StandardTankDrive());
-//		drivemodechooser->AddObject("2 Joystick Mecanum", new MecanumTankDrive());
-		// drivemodechooser->AddDefault("Xbox Standard", new MecanumSaucerDrive());
+		cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture();
+		camera.SetResolution(640, 480);
 
 	}
 
@@ -75,7 +89,8 @@ public:
 	 */
 	void DisabledInit() override
 	{
-
+		imu->Reset();
+		gyroAngle = 0.0;
 	}
 
 	void DisabledPeriodic() override
@@ -96,24 +111,43 @@ public:
 	 */
 	void AutonomousInit() override
 	{
-		std::string autoSelected = frc::SmartDashboard::GetString(
-				"Auto Selector", "Default");
-		if (autoSelected == "My Auto") {
-			m_autonomousCommand = &m_myAuto;
-		} else {
-			m_autonomousCommand = &m_defaultAuto;
+		imu->Reset();
+		gyroAngle = 0.0;
+
+		/*
+		 * In our Left Field Command Group, do something like this:
+
+		if(gameData[0] == 'L')
+		{
+			//Put Left Near Switch code here
+		}
+		else if gameData[1] = ‘L’
+		{
+			//Put Left Scale auto code here
+		}
+		else if gameData[2] = 'L'
+		{
+			//Put Left Far Switch code here
 		}
 
-		m_autonomousCommand = m_chooser.GetSelected();
-
-		if (m_autonomousCommand != nullptr) {
-			m_autonomousCommand->Start();
+		/* Then do the same thing for the Right Field Command Group
+		 */
+		autonomousCommand = (Command *) autochooser->GetSelected();
+		if (autonomousCommand != nullptr)
+		{
+			autonomousCommand->Start();
 		}
+
 	}
 
 	void AutonomousPeriodic() override
 	{
+		std::string gameData;
+		gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+		SmartDashboard::PutString("Plate Configuration: ", gameData);
+
 		frc::Scheduler::GetInstance()->Run();
+		gyroAngle = imu->GetAngleZ();
 	}
 
 	void TeleopInit() override {
@@ -121,37 +155,37 @@ public:
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != nullptr) {
-			m_autonomousCommand->Cancel();
-			m_autonomousCommand = nullptr;
+		if (autonomousCommand != nullptr)
+		{
+			autonomousCommand->Cancel();
+			autonomousCommand = nullptr;
 		}
 		// If we're offering multiple drive/controller options through sendable chooser:
 		// teleopCommand = (Command *) drivemodechooser->GetSelected();
 
-		teleopCommand = new MecanumSaucerDrive();
+		teleopCommand = (Command *) teleopchooser->GetSelected();
+		// teleopCommand = new MecanumSaucerDrive(imu);
 		if (teleopCommand != nullptr)
 			teleopCommand->Start();
-		/*
-		 * FIXME Can we run a second command concurrently for forklift?
 
-		climber = new Climb();
-		if (climber != nullptr)
-			climber->Start();
-		 */
-		fork = new ForkRaise();
+		fork = new ForkMove();
 		if (fork != nullptr)
 			fork->Start();
 
+		imu->Reset();
+		gyroAngle = 0.0;
 	}
 
 	void TeleopPeriodic() override
 	{
+		gyroAngle = imu->GetAngleZ();
 		frc::Scheduler::GetInstance()->Run();
 		// -------------> Not working ---->SmartDashboard::PutNumber("Joystick X value", oi->extendBtn->Get());
-		// SmartDashboard::PutNumber("Joystick X value", oi->extendBtn->Get());
+		//sd->PutNumber("Joystick X value", oi->extendBtn->Get());
 		SmartDashboard::PutBoolean("Compressor: ",compressor->Enabled());
 		SmartDashboard::PutBoolean("Pressure Switch: ", compressor->GetPressureSwitchValue());
 		SmartDashboard::PutNumber("Compressor Current: ", compressorCurrent = compressor->GetCompressorCurrent());
+
 	}
 
 	void TestPeriodic() override

@@ -1,39 +1,39 @@
-#include "ForkLower.h"
+#include "Eject.h"
 
-ForkLower::ForkLower()
+Eject::Eject()
 {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
-	Requires(forklifter);
+	Requires(grabbarms);
 }
 
 // Called just before this Command runs the first time
-void ForkLower::Initialize()
+void Eject::Initialize()
 {
 
 }
 
 // Called repeatedly when this Command is scheduled to run
-void ForkLower::Execute()
+void Eject::Execute()
 {
-
+	grabbarms->Eject();
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool ForkLower::IsFinished()
+bool Eject::IsFinished()
 {
 	return false;
 }
 
 // Called once after isFinished returns true
-void ForkLower::End()
+void Eject::End()
 {
-	forklifter->Stop();
+	grabbarms->AllStop();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ForkLower::Interrupted()
+void Eject::Interrupted()
 {
-	forklifter->Stop();
+	grabbarms->AllStop();
 }

@@ -1,37 +1,39 @@
-#include "PistonExtend.h"
+#include "autoNothing.h"
 
-PistonExtend::PistonExtend()
+autoNothing::autoNothing(double input)
 {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
-	Requires(piston);
+	timer = input;
 }
 
 // Called just before this Command runs the first time
-void PistonExtend::Initialize()
+void autoNothing::Initialize()
 {
-	// This is where we can extend the piston
-	piston->Toggle();
+	SetTimeout(timer);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void PistonExtend::Execute()
+void autoNothing::Execute()
 {
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool PistonExtend::IsFinished()
+bool autoNothing::IsFinished()
 {
-	return true;
+	return IsTimedOut();
 }
 
 // Called once after isFinished returns true
-void PistonExtend::End()
+void autoNothing::End()
 {
+
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void PistonExtend::Interrupted()
+void autoNothing::Interrupted()
 {
+
 }
